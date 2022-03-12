@@ -1,7 +1,7 @@
 -- PART 1:
 -- Rewrite the SQL table below to use a maximally efficient column order.
 -- You may directly modify this table.
-
+/*
 CREATE TABLE project (
     id SERIAL PRIMARY KEY,
     author_id BIGINT NOT NULL,
@@ -15,6 +15,33 @@ CREATE TABLE project (
     action SMALLINT NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE,
     updated_at TIMESTAMPTZ
+);
+*/
+
+CREATE TABLE project (
+    -- len=16
+    developer_id UUID,
+
+    -- len=8
+    author_id BIGINT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE,
+    updated_at TIMESTAMPTZ,
+
+    -- len=4
+    id SERIAL PRIMARY KEY,
+    target_id INTEGER,
+    project_id INTEGER NOT NULL UNIQUE,
+
+    -- len=2
+    action SMALLINT NOT NULL,
+
+    -- len=1
+    title CHAR(256),
+
+    -- len=-1
+    target_type VARCHAR(2),
+    developer_addr INET,
+    data TEXT
 );
 
 -- PART 2:
@@ -37,7 +64,7 @@ INSERT INTO project VALUES (
     '2022-03-09T18:34:27+00:00'
 );
 
--- Header:
--- Data:
--- Padding:
--- Total:
+-- Header: 32
+-- Data: 56
+-- Padding: 0
+-- Total: 88

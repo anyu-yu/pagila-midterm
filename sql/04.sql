@@ -15,3 +15,18 @@
  * NOTE:
  * You do not have to include movies with similarity score 0 in your results (but you may if you like).
  */
+ WITH film_customer AS (
+   SELECT *
+   FROM film
+   JOIN inventory USING (film_id)
+   JOIN rental USING (inventory_id)
+   JOIN customer USING (customer_id)
+ )
+
+SELECT fc0.title, COUNT(*) AS count
+FROM film_customer fc0
+JOIN film_customer fc1 ON (fc0.customer_id = fc1.customer_id)
+WHERE NOT(fc0.title = 'AMERICAN CIRCUS')
+  AND fc1.title = 'AMERICAN CIRCUS'
+GROUP BY fc0.title
+ORDER BY count DESC;
